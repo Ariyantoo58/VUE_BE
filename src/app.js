@@ -23,7 +23,7 @@ app.use(routes);
 
 /** Filter */
 app.use((error, req, res, next) => {
-    console.error(error.constructor.name);
+    console.error(error);
     switch (error.constructor) {
         case SyntaxError: { return ResponseHandler(res, { httpStatus: HttpStatus.BAD_REQUEST }); }
         default: { return ResponseHandler(res, { httpStatus: HttpStatus.INTERNAL_SERVER_ERROR }); }
