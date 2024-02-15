@@ -1,13 +1,6 @@
 "use strict";
 
-const { body, param, query, validationResult } = require("express-validator");
-
-exports.channelGetValidator = () => {
-    return [
-        query("limit").optional().isNumeric().withMessage("limit must numeric value").bail().isLength({ max: 9 }).withMessage("Customer id max 9 digit"),
-        query("page").optional().isNumeric().withMessage("page must numeric value").bail().isLength({ min: 0, max: 9 }),
-    ];
-};
+const { ResponseHandler, HttpStatus } = require("@/shared/index")
 
 exports.validate = (req, res, next) => {
     const errors = validationResult(req);
@@ -17,5 +10,5 @@ exports.validate = (req, res, next) => {
         return { [err.param]: err.msg };
     });
 
-    return res.status(400).json({ errors: extractedErrors });
+    return ResponseHandler(res, { httpStatus: HttpStatus.BAD_REQUEST, data: extractedErrors });
 };

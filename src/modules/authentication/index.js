@@ -2,5 +2,6 @@
 
 module.exports = {
     authenticationController: require("./authentication.controller"),
-    authenticationService: require("./authentication.service")
+    authenticationService: require("./authentication.service"),
+    authenticationValidator: require("./authentication.validator")
 }

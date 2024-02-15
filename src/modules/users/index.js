@@ -1,6 +1,7 @@
 "use strict";
 
 module.exports = {
-    userController: require("./users.controller"),
-    userService: require("./users.service")
+    usersController: require("./users.controller"),
+    usersService: require("./users.service"),
+    usersValidator: require("./users.validator"),
 }
