@@ -1,10 +1,3 @@
-"use strict";
-
-const { ErrorHandler } = require("@/shared");
-const express = require("express");
-const router = express.Router();
-const { authenticationController } = require("@/modules/index");
-
 /**
  * @openapi
  * '/api/v1/authentication/login':
@@ -39,22 +32,41 @@ const { authenticationController } = require("@/modules/index");
  *        description: Server Error
  */
 
-router
-	.route("/login")
-	.post(ErrorHandler(authenticationController.getAuthentication));
+/**
+ * @openapi
+ * '/api/v1/authentication/refresh-token':
+ *  get:
+ *     tags:
+ *     - Authentication
+ *     summary: Refresh Token
+ *     responses:
+ *      201:
+ *        description: Created
+ *      409:
+ *        description: Conflict
+ *      404:
+ *        description: Not Found
+ *      500:
+ *        description: Server Error
+ */
 
-router
-	.route("/refresh-token")
-	.get(
-		authenticationController.authRefreshToken,
-		ErrorHandler(authenticationController.authRefreshToken)
-	);
-router
-	.route("/logout")
-	.get(
-		authenticationController.authLogut,
-		ErrorHandler(authenticationController.authLogut)
-	);
+/**
+ * @openapi
+ * '/api/v1/authentication/logout':
+ *  get:
+ *     tags:
+ *     - Authentication
+ *     summary: Logout from database
+ *     responses:
+ *      201:
+ *        description: Created
+ *      409:
+ *        description: Conflict
+ *      404:
+ *        description: Not Found
+ *      500:
+ *        description: Server Error
+ */
 
 /**
  * @openapi
@@ -101,12 +113,3 @@ router
  *      500:
  *        description: Server Error
  */
-
-router
-	.route("/register")
-	.post(
-		authenticationController.authRegister,
-		ErrorHandler(authenticationController.authRegister)
-	);
-
-module.exports = router;

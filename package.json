@@ -8,10 +8,10 @@
         "test": "snyk test",
         "dev": "nodemon app.js"
     },
-    "author": "Mooniverse <erryjuliox@gmail.com>",
+    "author": "Aridevs <ariyantoo642@gmail.com>",
     "license": "ISC",
     "_moduleAliases": {
-        "@/configs": "./src/configs",
+        "@/config": "./src/config",
         "@/middlewares": "./src/middlewares",
         "@/models": "./src/models",
         "@/modules": "./src/modules",
@@ -22,18 +22,23 @@
     "dependencies": {
         "apicache": "^1.6.3",
         "axios": "^1.6.5",
+        "cookie-parser": "^1.4.6",
         "cors": "^2.8.5",
         "dotenv": "^8.6.0",
         "express": "^4.17.1",
         "express-validator": "^6.13.0",
+        "joi": "^17.13.3",
         "jsonwebtoken": "^9.0.2",
         "module-alias": "^2.2.2",
         "morgan-body": "^2.6.6",
+        "mysql2": "^2.2.5",
         "node-cache": "^5.1.2",
-        "pg": "^8.7.1",
+        "redis": "^4.6.14",
         "sequelize": "^6.11.0"
     },
     "devDependencies": {
-        "nodemon": "^2.0.15"
+        "nodemon": "^2.0.15",
+        "swagger-jsdoc": "^6.2.8",
+        "swagger-ui-express": "^5.0.1"
     }
 }

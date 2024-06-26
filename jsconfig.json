@@ -4,15 +4,34 @@
         "target": "es6",
         "baseUrl": "./src",
         "paths": {
-            "@/configs/*": ["./configs/*"],
-            "@/middlewares/*": ["./middlewares/*"],
-            "@/models/*": ["./models/*"],
-            "@/modules/*": ["./modules/*"],
-            "@/routes/*": ["./routes/*"],
-            "@/shared/*": ["./shared/*"],
-            "@/src/*": ["./*"],
+            "@/config/*": [
+                "./config/*"
+            ],
+            "@/middlewares/*": [
+                "./middlewares/*"
+            ],
+            "@/models/*": [
+                "./models/*"
+            ],
+            "@/modules/*": [
+                "./modules/*"
+            ],
+            "@/routes/*": [
+                "./routes/*"
+            ],
+            "@/shared/*": [
+                "./shared/*"
+            ],
+            "@/src/*": [
+                "./*"
+            ],
         }
     },
-    "include": ["./src/**/*.js"],
-    "exclude": ["node_modules", "**/node_modules/*"]
+    "include": [
+        "./src/**/*.js"
+    ],
+    "exclude": [
+        "node_modules",
+        "**/node_modules/*"
+    ]
 }
