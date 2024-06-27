@@ -2,7 +2,7 @@
 
 const { user } = require("@/models");
 
-exports.serviceUserById = async (id) => {
+const serviceUserById = async (id) => {
 	try {
 		const response = await user.findOne({
 			where: [{ id: parseInt(id) }],
@@ -23,17 +23,18 @@ exports.serviceUserById = async (id) => {
 	}
 };
 
-exports.serviceAllUser = async () => {
+const serviceAllUser = async () => {
+	console.log("first");
 	try {
 		const response = await user.findAll({});
-
+		console.log(response, "response");
 		return response;
 	} catch (error) {
 		return error.message;
 	}
 };
 
-exports.serviceDeleteUser = async (id) => {
+const serviceDeleteUser = async (id) => {
 	try {
 		const response = await user.destroy({
 			where: {
@@ -47,7 +48,7 @@ exports.serviceDeleteUser = async (id) => {
 	}
 };
 
-exports.serviceUpdateUser = async (body, id) => {
+const serviceUpdateUser = async (body, id) => {
 	try {
 		const response = await user.update(body, {
 			where: {
@@ -60,3 +61,19 @@ exports.serviceUpdateUser = async (body, id) => {
 		return error.message;
 	}
 };
+
+const userService = () => {
+	return Object.freeze({
+		serviceUserById,
+		serviceAllUser,
+		serviceDeleteUser,
+		serviceUpdateUser,
+	});
+};
+
+const userInject = async (req, res, next) => {
+	req.service = userService();
+	next();
+};
+
+module.exports = userInject;

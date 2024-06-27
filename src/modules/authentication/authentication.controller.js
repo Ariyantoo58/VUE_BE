@@ -1,12 +1,6 @@
 "use strict";
 
 const { ResponseHandler, HttpStatus } = require("@/shared/index");
-const {
-	loginAuth,
-	UpdateToken,
-	RefreshTokenDB,
-	serviceRegister,
-} = require("./authentication.service");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
@@ -14,7 +8,7 @@ exports.getAuthentication = async (req, res, next) => {
 	const { email, password } = req.body;
 
 	try {
-		const singleUser = await loginAuth({
+		const singleUser = await req.service.loginAuth({
 			email: email,
 		});
 
@@ -50,7 +44,7 @@ exports.getAuthentication = async (req, res, next) => {
 			}
 		);
 
-		await UpdateToken({
+		await req.service.updateToken({
 			refreshToken: refreshToken,
 			userId: userId,
 		});
@@ -85,7 +79,7 @@ exports.authRefreshToken = async (req, res, next) => {
 				message: "UnAuthorized",
 			});
 
-		const userRefresh = await RefreshTokenDB({
+		const userRefresh = await req.service.refreshTokenDB({
 			refreshToken: refreshToken,
 		});
 
@@ -138,7 +132,7 @@ exports.authLogut = async (req, res, next) => {
 				message: "UnAuthorized",
 			});
 
-		const singleUser = await RefreshTokenDB({
+		const singleUser = await req.service.refreshTokenDB({
 			token: refreshToken,
 		});
 
@@ -147,45 +141,12 @@ exports.authLogut = async (req, res, next) => {
 				httpStatus: HttpStatus.FORBIDDEN,
 				message: "FORBIDDEN",
 			});
-		await UpdateToken({ refreshToken: null, userId: singleUser.id });
+		await req.service.updateToken({
+			refreshToken: null,
+			userId: singleUser.id,
+		});
 
 		res.clearCookie("refreshToken");
-
-		return ResponseHandler(res, {
-			httpStatus: HttpStatus.OK,
-			message: "succsess",
-		});
-	} catch (error) {
-		return ResponseHandler(res, {
-			httpStatus: HttpStatus.INTERNAL_SERVER_ERROR,
-			message: error.message,
-		});
-	}
-};
-
-exports.ResetPasswords = async (req, res, next) => {
-	const { email, password1, password2 } = req.body;
-	try {
-		const match = password1 === password2;
-		if (!match)
-			return ResponseHandler(res, {
-				httpStatus: HttpStatus.NOT_FOUND,
-				message: "Password tidak sama",
-			});
-
-		const userData = await getUserByEmail({
-			email: email,
-		});
-
-		if (!userData[0])
-			return ResponseHandler(res, {
-				httpStatus: HttpStatus.FORBIDDEN,
-				message: "FORBIDDEN",
-			});
-		await resetPasswords({
-			password: password1,
-			userId: userData[0].ID,
-		});
 
 		return ResponseHandler(res, {
 			httpStatus: HttpStatus.OK,
@@ -202,7 +163,7 @@ exports.ResetPasswords = async (req, res, next) => {
 exports.authRegister = async (req, res, next) => {
 	const { password, lastName, firstName, username, email } = req.body;
 	try {
-		const response = await serviceRegister({
+		const response = await req.service.serviceRegister({
 			email: email,
 			username: username,
 			firstName: firstName,

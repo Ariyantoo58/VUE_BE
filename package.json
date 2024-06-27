@@ -6,7 +6,8 @@
     "scripts": {
         "start": "node app.js",
         "test": "snyk test",
-        "dev": "nodemon app.js"
+        "dev": "nodemon app.js",
+        "build": "nodemon app.js"
     },
     "author": "Aridevs <ariyantoo642@gmail.com>",
     "license": "ISC",
@@ -34,7 +35,9 @@
         "mysql2": "^2.2.5",
         "node-cache": "^5.1.2",
         "redis": "^4.6.14",
-        "sequelize": "^6.11.0"
+        "reflect-metadata": "^0.2.2",
+        "sequelize": "^6.11.0",
+        "typedi": "^0.10.0"
     },
     "devDependencies": {
         "nodemon": "^2.0.15",

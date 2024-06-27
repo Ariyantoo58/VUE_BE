@@ -1,12 +1,7 @@
 "use strict";
 
 const { ResponseHandler, HttpStatus } = require("@/shared/index");
-const {
-	serviceUserById,
-	serviceAllUser,
-	serviceDeleteUser,
-	serviceUpdateUser,
-} = require("./users.service");
+
 const client = require("@/config/redis");
 
 exports.getUsers = async (req, res) => {
@@ -22,7 +17,7 @@ exports.getUsers = async (req, res) => {
 				data: JSON.parse(cachedData), // Parse the cached JSON data
 			});
 		} else {
-			const users = await serviceUserById(id);
+			const users = await req.service.serviceUserById(id);
 
 			if (users) {
 				await client.setEx(cacheKey, 3600, JSON.stringify(users)); // Cache the data for 1 hour
@@ -49,7 +44,7 @@ exports.getUsers = async (req, res) => {
 
 exports.getAllUsers = async (req, res) => {
 	try {
-		const users = await serviceAllUser();
+		const users = await req.service.serviceAllUser();
 
 		return ResponseHandler(res, { httpStatus: HttpStatus.OK, data: users });
 	} catch (error) {
@@ -63,7 +58,7 @@ exports.getAllUsers = async (req, res) => {
 exports.deleteUser = async (req, res) => {
 	const { id } = req.params;
 	try {
-		const users = await serviceDeleteUser(id);
+		const users = await req.service.serviceDeleteUser(id);
 
 		return ResponseHandler(res, { httpStatus: HttpStatus.OK, data: users });
 	} catch (error) {
@@ -77,7 +72,7 @@ exports.deleteUser = async (req, res) => {
 exports.UpdateUser = async (req, res) => {
 	const { id } = req.params;
 	try {
-		const users = await serviceUpdateUser(req.body, id);
+		const users = await req.service.serviceUpdateUser(req.body, id);
 
 		return ResponseHandler(res, { httpStatus: HttpStatus.OK, data: users });
 	} catch (error) {

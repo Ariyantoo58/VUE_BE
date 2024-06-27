@@ -3,7 +3,7 @@
 const { user } = require("@/models");
 const { where } = require("sequelize");
 
-exports.loginAuth = async ({ email }) => {
+const loginAuth = async ({ email }) => {
 	try {
 		const response = await user.findOne({
 			attributes: [
@@ -27,7 +27,7 @@ exports.loginAuth = async ({ email }) => {
 	}
 };
 
-exports.UpdateToken = async ({ userId, refreshToken }) => {
+const updateToken = async ({ userId, refreshToken }) => {
 	try {
 		const response = await user.update(
 			{
@@ -47,7 +47,7 @@ exports.UpdateToken = async ({ userId, refreshToken }) => {
 	}
 };
 
-exports.RefreshTokenDB = async ({ refreshToken }) => {
+const refreshTokenDB = async ({ refreshToken }) => {
 	try {
 		const response = await user.findOne({
 			attributes: ["firstName", "lastName", "token", "email", "id"],
@@ -63,7 +63,7 @@ exports.RefreshTokenDB = async ({ refreshToken }) => {
 	}
 };
 
-exports.serviceRegister = async ({
+const serviceRegister = async ({
 	email,
 	username,
 	lastName,
@@ -83,3 +83,19 @@ exports.serviceRegister = async ({
 		return error.message;
 	}
 };
+
+const userService = () => {
+	return Object.freeze({
+		loginAuth,
+		updateToken,
+		refreshTokenDB,
+		serviceRegister,
+	});
+};
+
+const authInject = async (req, res, next) => {
+	req.service = userService();
+	next();
+};
+
+module.exports = authInject;
