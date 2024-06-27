@@ -1,8 +1,6 @@
 "use strict";
 
 const { user } = require("@/models");
-const { where } = require("sequelize");
-
 const loginAuth = async ({ email }) => {
 	try {
 		const response = await user.findOne({
